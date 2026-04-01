@@ -9,11 +9,9 @@ from __future__ import annotations
 import json
 from unittest.mock import MagicMock, patch
 
-import pytest
 
 from src.handler import (
     ConversationRecord,
-    get_conversation,
     handle_get_chat,
     handle_post_chat,
     lambda_handler,
@@ -121,9 +119,7 @@ class TestPostChat:
 
     @patch("src.handler.anthropic.Anthropic")
     @patch("src.handler.save_conversation")
-    def test_post_chat_anthropic_error(
-        self, mock_save, mock_anthropic_cls
-    ):
+    def test_post_chat_anthropic_error(self, mock_save, mock_anthropic_cls):
         """Test POST /chat handling Anthropic API errors."""
         import anthropic as anthropic_mod
 
@@ -191,7 +187,9 @@ class TestGetChat:
 class TestLambdaHandler:
     @patch("src.handler.anthropic.Anthropic")
     @patch("src.handler.save_conversation")
-    def test_lambda_handler_post_chat(self, mock_save, mock_anthropic_cls, mock_anthropic):
+    def test_lambda_handler_post_chat(
+        self, mock_save, mock_anthropic_cls, mock_anthropic
+    ):
         """Test lambda_handler with POST /chat."""
         mock_save.return_value = True
         mock_anthropic_cls.return_value = mock_anthropic.return_value

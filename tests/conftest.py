@@ -2,12 +2,11 @@
 Shared test fixtures for chatbot widget tests.
 """
 
-import json
 from unittest.mock import MagicMock, patch
 
 import boto3
 import pytest
-from moto import mock_dynamodb, mock_ssm
+from moto import mock_dynamodb
 
 
 @pytest.fixture

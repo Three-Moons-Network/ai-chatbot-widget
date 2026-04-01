@@ -137,12 +137,11 @@ resource "aws_iam_role_policy" "lambda" {
 # ---------------------------------------------------------------------------
 
 resource "aws_dynamodb_table" "conversations" {
-  name           = "conversations"
-  billing_mode   = var.dynamodb_billing_mode
-  hash_key       = "session_id"
-  stream_specification {
-    stream_view_type = "NEW_AND_OLD_IMAGES"
-  }
+  name             = "conversations"
+  billing_mode     = var.dynamodb_billing_mode
+  hash_key         = "session_id"
+  stream_enabled   = true
+  stream_view_type = "NEW_AND_OLD_IMAGES"
 
   attribute {
     name = "session_id"
@@ -182,12 +181,12 @@ resource "aws_lambda_function" "chat_handler" {
 
   environment {
     variables = {
-      ENVIRONMENT                 = var.environment
-      ANTHROPIC_MODEL             = var.anthropic_model
-      MAX_TOKENS                  = tostring(var.max_tokens)
-      CONVERSATION_TTL_HOURS      = tostring(var.conversation_ttl_hours)
-      ANTHROPIC_API_KEY           = var.anthropic_api_key
-      LOG_LEVEL                   = var.environment == "prod" ? "WARNING" : "INFO"
+      ENVIRONMENT            = var.environment
+      ANTHROPIC_MODEL        = var.anthropic_model
+      MAX_TOKENS             = tostring(var.max_tokens)
+      CONVERSATION_TTL_HOURS = tostring(var.conversation_ttl_hours)
+      ANTHROPIC_API_KEY      = var.anthropic_api_key
+      LOG_LEVEL              = var.environment == "prod" ? "WARNING" : "INFO"
     }
   }
 
@@ -323,7 +322,7 @@ resource "aws_cloudwatch_metric_alarm" "lambda_duration" {
   extended_statistic  = "p99"
   period              = 300
   evaluation_periods  = 2
-  threshold           = var.lambda_timeout * 1000 * 0.8  # 80% of timeout
+  threshold           = var.lambda_timeout * 1000 * 0.8 # 80% of timeout
   comparison_operator = "GreaterThanThreshold"
   treat_missing_data  = "notBreaching"
 

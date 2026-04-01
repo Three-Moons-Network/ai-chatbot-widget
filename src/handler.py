@@ -143,7 +143,9 @@ def save_conversation(session_id: str, messages: list[dict[str, Any]]) -> bool:
         from datetime import datetime, timedelta
 
         created_at = datetime.utcnow().isoformat() + "Z"
-        expires_at = (datetime.utcnow() + timedelta(hours=CONVERSATION_TTL_HOURS)).isoformat() + "Z"
+        expires_at = (
+            datetime.utcnow() + timedelta(hours=CONVERSATION_TTL_HOURS)
+        ).isoformat() + "Z"
 
         table.put_item(
             Item={
@@ -220,7 +222,9 @@ def handle_post_chat(body: dict[str, Any]) -> tuple[dict, int]:
     conversation = get_conversation(session_id)
     if conversation:
         messages = conversation.messages
-        logger.info(f"Retrieved conversation {session_id} with {len(messages)} messages")
+        logger.info(
+            f"Retrieved conversation {session_id} with {len(messages)} messages"
+        )
     else:
         messages = []
         logger.info(f"Starting new conversation {session_id}")
@@ -293,11 +297,13 @@ def handle_get_chat(session_id: str) -> tuple[dict, int]:
     # Format messages with timestamps
     formatted_messages = []
     for msg in conversation.messages:
-        formatted_messages.append({
-            "role": msg.get("role", ""),
-            "content": msg.get("content", ""),
-            "timestamp": msg.get("timestamp", ""),
-        })
+        formatted_messages.append(
+            {
+                "role": msg.get("role", ""),
+                "content": msg.get("content", ""),
+                "timestamp": msg.get("timestamp", ""),
+            }
+        )
 
     logger.info(
         "Retrieved conversation",

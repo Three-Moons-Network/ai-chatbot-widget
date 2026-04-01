@@ -64,10 +64,10 @@ variable "lambda_timeout" {
 variable "conversation_ttl_hours" {
   description = "Conversation session TTL in hours (auto-cleanup via DynamoDB TTL)"
   type        = number
-  default     = 168  # 7 days
+  default     = 168 # 7 days
 
   validation {
-    condition     = var.conversation_ttl_hours > 0 && var.conversation_ttl_hours <= 1440  # Max 60 days
+    condition     = var.conversation_ttl_hours > 0 && var.conversation_ttl_hours <= 1440 # Max 60 days
     error_message = "TTL must be between 1 and 1440 hours."
   }
 }
