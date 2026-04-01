@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Chatbot Widget — Demo</title>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        margin: 0;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 12px;
+        padding: 40px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        color: #667eea;
+        margin-top: 0;
+      }
+
+      h2 {
+        color: #667eea;
+        margin-top: 30px;
+        border-bottom: 2px solid #667eea;
+        padding-bottom: 10px;
+      }
+
+      .code-block {
+        background: #f5f5f5;
+        padding: 15px;
+        border-radius: 6px;
+        overflow-x: auto;
+        font-family: "Courier New", monospace;
+        font-size: 13px;
+        line-height: 1.4;
+      }
+
+      .note {
+        background: #f0f4ff;
+        border-left: 4px solid #667eea;
+        padding: 15px;
+        margin: 20px 0;
+        border-radius: 4px;
+      }
+
+      .note strong {
+        color: #667eea;
+      }
+
+      a {
+        color: #667eea;
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+
+      .feature-list {
+        list-style: none;
+        padding: 0;
+      }
+
+      .feature-list li {
+        padding: 8px 0;
+        padding-left: 30px;
+        position: relative;
+      }
+
+      .feature-list li:before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        color: #27ae60;
+        font-weight: bold;
+      }
+
+      .config-example {
+        background: #f5f5f5;
+        padding: 15px;
+        border-radius: 6px;
+        margin: 15px 0;
+      }
+
+      .footer {
+        margin-top: 40px;
+        padding-top: 20px;
+        border-top: 1px solid #e0e0e0;
+        font-size: 13px;
+        color: #666;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>AI Chatbot Widget — Live Demo</h1>
+
+      <p>
+        This page demonstrates the AI Chatbot Widget from
+        <strong>Three Moons Network</strong>. The chat widget is embedded in
+        this page — look for it in the bottom-right corner.
+      </p>
+
+      <h2>Features</h2>
+      <ul class="feature-list">
+        <li>Real-time AI responses powered by Claude</li>
+        <li>Persistent conversation history</li>
+        <li>Automatic session management</li>
+        <li>Fully embeddable with single script tag</li>
+        <li>Responsive design for mobile & desktop</li>
+        <li>Dark mode support</li>
+        <li>Production-ready with enterprise security</li>
+      </ul>
+
+      <h2>Configuration</h2>
+
+      <p>
+        To embed the widget in your own website, add this code to your HTML:
+      </p>
+
+      <div class="code-block">
+&lt;div id="chat-widget"&gt;&lt;/div&gt;<br />
+&lt;script&gt;<br />
+&nbsp;&nbsp;window.ChatWidgetConfig = {<br />
+&nbsp;&nbsp;&nbsp;&nbsp;apiEndpoint:
+"https://your-api-id.execute-api.region.amazonaws.com",<br />
+&nbsp;&nbsp;&nbsp;&nbsp;sessionId: "user-" + Math.random().toString(36).substr(2,
+9)<br />
+&nbsp;&nbsp;};<br />
+&lt;/script&gt;<br />
+&lt;script src="https://your-domain.com/widget/widget.js"&gt;&lt;/script&gt;
+      </div>
+
+      <div class="note">
+        <strong>Note:</strong> Replace the apiEndpoint with your actual Lambda
+        API Gateway endpoint from the Terraform deployment.
+      </div>
+
+      <h2>Configuration Options</h2>
+
+      <p>The ChatWidgetConfig object accepts the following options:</p>
+
+      <div class="config-example">
+        <strong>Required:</strong><br />
+        • <code>apiEndpoint</code> - Your Lambda API Gateway endpoint<br />
+        • <code>sessionId</code> - Unique identifier for this user/conversation<br />
+        <br />
+        <strong>Optional:</strong><br />
+        • <code>title</code> - Chat window title (default: "Chat Support")<br />
+        • <code>greeting</code> - Initial greeting message<br />
+        • <code>position</code> - Widget position: bottom-right, bottom-left,
+        top-right, top-left<br />
+        • <code>width</code> - Widget width in pixels (default: 380)<br />
+        • <code>height</code> - Widget height in pixels (default: 500)
+      </div>
+
+      <h2>API Endpoints</h2>
+
+      <h3>POST /chat</h3>
+      <p>Send a message and receive an AI response.</p>
+      <div class="code-block">
+{<br />
+&nbsp;&nbsp;"session_id": "user-123",<br />
+&nbsp;&nbsp;"message": "How do I reset my password?"<br />
+}
+      </div>
+
+      <h3>GET /chat/{session_id}</h3>
+      <p>Retrieve the full conversation history for a session.</p>
+      <div class="code-block">
+        GET /chat/user-123
+      </div>
+
+      <h2>Getting Started</h2>
+
+      <ol>
+        <li>Clone the repository from GitHub</li>
+        <li>Configure your Anthropic API key in terraform.tfvars</li>
+        <li>Run <code>./scripts/deploy.sh</code> to build the Lambda package</li>
+        <li>
+          Run <code>terraform apply</code> to deploy to AWS (see README.md for
+          details)
+        </li>
+        <li>Update the apiEndpoint in your configuration</li>
+        <li>Embed the widget script in your website</li>
+      </ol>
+
+      <h2>Support</h2>
+
+      <p>
+        For more information, documentation, and examples, visit:
+        <a href="https://github.com/Three-Moons-Network/ai-chatbot-widget"
+          >Three Moons Network GitHub</a
+        >
+      </p>
+
+      <div class="note">
+        <strong>Tip:</strong> Try asking the chatbot questions about the
+        deployment or configuration. It's powered by Claude and ready to help!
+      </div>
+
+      <div class="footer">
+        <p>
+          AI Chatbot Widget — Built by
+          <a href="https://threemoonsnetwork.net">Three Moons Network</a><br />
+          Production-ready AI solutions for small businesses
+        </p>
+      </div>
+    </div>
+
+    <!-- Configure and load the chat widget -->
+    <script>
+      window.ChatWidgetConfig = {
+        // IMPORTANT: Replace with your actual API endpoint from terraform output
+        apiEndpoint:
+          "https://your-api-id.execute-api.us-east-1.amazonaws.com",
+
+        // Generate a unique session ID for this user
+        sessionId: "user-demo-" + Math.random().toString(36).substr(2, 9),
+
+        // Optional: Customize the widget
+        title: "Three Moons AI Support",
+        greeting: "Welcome! I'm an AI assistant powered by Claude. How can I help you today?",
+        position: "bottom-right",
+        width: 380,
+        height: 500,
+      };
+    </script>
+
+    <!-- Load the widget script -->
+    <!-- In production, point this to your CDN or hosted location -->
+    <script src="./widget.js"></script>
+  </body>
+</html>
