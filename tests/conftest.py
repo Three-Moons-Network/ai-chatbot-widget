@@ -33,6 +33,7 @@ def mock_dynamodb_table(aws_credentials):
     """Create mock DynamoDB conversations table."""
     with mock_aws():
         dynamodb = boto3.resource("dynamodb", region_name="us-east-1")
+        client = boto3.client("dynamodb", region_name="us-east-1")
 
         table = dynamodb.create_table(
             TableName="conversations",
@@ -41,6 +42,11 @@ def mock_dynamodb_table(aws_credentials):
                 {"AttributeName": "session_id", "AttributeType": "S"}
             ],
             BillingMode="PAY_PER_REQUEST",
+        )
+
+        # Set TTL separately after table creation
+        client.update_time_to_live(
+            TableName="conversations",
             TimeToLiveSpecification={
                 "AttributeName": "ttl",
                 "Enabled": True,

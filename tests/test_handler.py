@@ -262,10 +262,11 @@ class TestLambdaHandler:
             assert "Access-Control-Allow-Headers" in result["headers"]
             assert "Access-Control-Allow-Methods" in result["headers"]
 
-    def test_lambda_handler_string_body(self):
+    def test_lambda_handler_string_body(self, mock_anthropic):
         """Test lambda_handler with string body (API Gateway format)."""
         with patch("src.handler.get_conversation", return_value=None):
-            with patch("src.handler.anthropic.Anthropic"):
+            with patch("src.handler.anthropic.Anthropic") as mock_anthropic_cls:
+                mock_anthropic_cls.return_value = mock_anthropic.return_value
                 with patch("src.handler.save_conversation", return_value=True):
                     event = {
                         "requestContext": {"http": {"method": "POST"}},
