@@ -1,0 +1,16 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ai-chatbot-widget
+  description: >
+    Embeddable AI chatbot — HTTP API backed by Claude with DynamoDB conversation history and auto-expiring sessions, plus a drop-in JavaScript widget.
+  annotations:
+    github.com/project-slug: Three-Moons-Network/ai-chatbot-widget
+  tags:
+    - python
+    - ai
+    - aws
+spec:
+  type: service
+  lifecycle: experimental
+  owner: user:linuxlsr
